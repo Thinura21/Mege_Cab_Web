@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega City Cab - Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f5f7fa;
+            --accent-color: #5cb85c;
+            --warning-color: #f0ad4e;
+            --info-color: #5bc0de;
+            --text-color: #2c3e50;
+            --light-text: #7f8c8d;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            color: var(--primary-color) !important;
+            font-weight: bold;
+        }
+
+        .nav-link {
+            color: var(--text-color) !important;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card {
+            padding: 1.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card.primary {
+            background-color: var(--primary-color);
+        }
+
+        .stat-card.success {
+            background-color: var(--accent-color);
+        }
+
+        .stat-card.warning {
+            background-color: var(--warning-color);
+        }
+
+        .stat-card.info {
+            background-color: var(--info-color);
+        }
+
+        .stat-icon {
+            position: absolute;
+            right: 1rem;
+            bottom: 1rem;
+            font-size: 3rem;
+            opacity: 0.2;
+        }
+
+        .table {
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        .table th {
+            border-top: none;
+            color: var(--light-text);
+            font-weight: 600;
+        }
+
+        .badge {
+            padding: 0.5em 1em;
+        }
+
+        .btn-action {
+            padding: 0.8rem;
+            border-radius: 8px;
+            border: none;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-taxi me-2"></i>Mega City Cab
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-book me-1"></i>Bookings
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-users me-1"></i>Customers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-car me-1"></i>Cars
+                        </a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a class="btn btn-outline-primary me-2" href="#">
+                        <i class="fas fa-question-circle me-1"></i>Help
+                    </a>
+                    <a class="btn btn-primary" href="#">
+                        <i class="fas fa-sign-out-alt me-1"></i>Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card stat-card primary">
+                    <h5>Total Bookings</h5>
+                    <h2>156</h2>
+                    <i class="fas fa-book stat-icon"></i>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card success">
+                    <h5>Active Customers</h5>
+                    <h2>89</h2>
+                    <i class="fas fa-users stat-icon"></i>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card warning">
+                    <h5>Available Cars</h5>
+                    <h2>24</h2>
+                    <i class="fas fa-car stat-icon"></i>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card info">
+                    <h5>Active Drivers</h5>
+                    <h2>32</h2>
+                    <i class="fas fa-id-card stat-icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">Recent Bookings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Booking ID</th>
+                                        <th>Customer</th>
+                                        <th>Destination</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#12345</td>
+                                        <td>John Doe</td>
+                                        <td>Airport</td>
+                                        <td><span class="badge bg-success">Completed</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#12346</td>
+                                        <td>Jane Smith</td>
+                                        <td>Hotel Hilton</td>
+                                        <td><span class="badge bg-warning">In Progress</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary"><i class="fas fa-eye"></i></button>
+                                            <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-3">
+                            <button class="btn btn-action btn-primary">
+                                <i class="fas fa-plus me-2"></i>New Booking
+                            </button>
+                            <button class="btn btn-action btn-success">
+                                <i class="fas fa-user-plus me-2"></i>Add Customer
+                            </button>
+                            <button class="btn btn-action btn-warning">
+                                <i class="fas fa-file-invoice-dollar me-2"></i>Generate Bill
+                            </button>
+                            <button class="btn btn-action btn-info">
+                                <i class="fas fa-chart-bar me-2"></i>View Reports
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

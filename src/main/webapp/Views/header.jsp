@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="Assets/css/style.css">
+    <link rel="stylesheet" href="webapp/Assets/css/style.css">
 </head>
 <body>
 

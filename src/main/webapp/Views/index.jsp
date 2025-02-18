@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="/header.jsp" %>
+<%@ include file="/Views/header.jsp" %>
 
 <!-- Hero Section -->
 <section class="hero-section d-flex align-items-center position-relative">
@@ -169,4 +169,4 @@
     </section>
 
 
-<%@ include file="/footer.jsp" %>
+<%@ include file="/Views/footer.jsp" %>
