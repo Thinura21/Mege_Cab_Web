@@ -1,15 +1,15 @@
 package com.datapackage.model;
 
-public class Customer {
-    private String userID;   
-    private String email;    
-    private String password;  
+public class Driver {
+    private String userID;    
+    private String email;     
+    private String password;
     private String name;
     private String address;
     private String nic;
     private String contact;
 
-    public Customer() {}
+    public Driver() {}
 
     public String getUserID() {
         return userID;

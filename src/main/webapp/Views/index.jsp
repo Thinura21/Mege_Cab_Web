@@ -1,8 +1,10 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="/Views/header.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+
+<%@ include file="Navigation/hedding.jsp" %>
 
 <!-- Hero Section -->
-<section class="hero-section d-flex align-items-center position-relative">
+<section class="hero-section mt-3 d-flex align-items-center position-relative">
     <div class="container">
         <div class="row align-items-center">
             <!-- Left Column (Text Content) -->
@@ -168,5 +170,11 @@
         </div>
     </section>
 
+<!-- Include the Footer -->
+<%@ include file="Navigation/footer.jsp" %>
 
-<%@ include file="/Views/footer.jsp" %>
+<!-- Include Scripts -->
+<%@ include file="../Assests/scripts.jsp" %>
+
+</body>
+</html>
