@@ -18,7 +18,7 @@ public class DriverDao {
             con = DBConnection.getConnection();
             con.setAutoCommit(false);
 
-            // Insert into Users table
+            // Insert into Users table (ID auto-generated)
             String sqlUsers = "INSERT INTO Users (Email, Password, Role) VALUES (?, ?, ?)";
             psUsers = con.prepareStatement(sqlUsers, Statement.RETURN_GENERATED_KEYS);
             psUsers.setString(1, driver.getEmail());
@@ -30,10 +30,9 @@ public class DriverDao {
                 generatedKeys = psUsers.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     int userID = generatedKeys.getInt(1);
-
-                    // Insert into Driver table using userID
-                    String sqlDriver = "INSERT INTO Driver (UserID, Email, Name, Address, NIC, Contact) "
-                                     + "VALUES (?, ?, ?, ?, ?, ?)";
+                    
+                    // Insert into Driver table using generated userID
+                    String sqlDriver = "INSERT INTO Driver (UserID, Email, Name, Address, NIC, Contact) VALUES (?, ?, ?, ?, ?, ?)";
                     psDriver = con.prepareStatement(sqlDriver);
                     psDriver.setInt(1, userID);
                     psDriver.setString(2, driver.getEmail());
@@ -41,7 +40,7 @@ public class DriverDao {
                     psDriver.setString(4, driver.getAddress());
                     psDriver.setString(5, driver.getNic());
                     psDriver.setString(6, driver.getContact());
-
+                    
                     int driverRows = psDriver.executeUpdate();
                     if (driverRows > 0) {
                         con.commit();
@@ -92,10 +91,39 @@ public class DriverDao {
         }
         return list;
     }
+    
+    // New: Search drivers based on a query string
+    public List<Driver> searchDrivers(String query) throws ClassNotFoundException, SQLException {
+        List<Driver> list = new ArrayList<>();
+        Connection con = DBConnection.getConnection();
+        String sql = "SELECT * FROM Driver WHERE Email LIKE ? OR Name LIKE ? OR Address LIKE ? OR NIC LIKE ? OR Contact LIKE ?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            String wildcardQuery = "%" + query + "%";
+            ps.setString(1, wildcardQuery);
+            ps.setString(2, wildcardQuery);
+            ps.setString(3, wildcardQuery);
+            ps.setString(4, wildcardQuery);
+            ps.setString(5, wildcardQuery);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Driver driver = new Driver();
+                    driver.setUserID(String.valueOf(rs.getInt("UserID")));
+                    driver.setEmail(rs.getString("Email"));
+                    driver.setName(rs.getString("Name"));
+                    driver.setAddress(rs.getString("Address"));
+                    driver.setNic(rs.getString("NIC"));
+                    driver.setContact(rs.getString("Contact"));
+                    list.add(driver);
+                }
+            }
+        } finally {
+            con.close();
+        }
+        return list;
+    }
 
     // Update an existing driver
-    public int updateDriver(int userID, String name, String address, String nic, String contact)
-            throws ClassNotFoundException, SQLException {
+    public int updateDriver(int userID, String name, String address, String nic, String contact) throws ClassNotFoundException, SQLException {
         Connection con = DBConnection.getConnection();
         String sql = "UPDATE Driver SET Name = ?, Address = ?, NIC = ?, Contact = ? WHERE UserID = ?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {

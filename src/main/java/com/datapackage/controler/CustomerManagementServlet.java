@@ -1,7 +1,7 @@
 package com.datapackage.controler;
 
-import com.datapackage.dao.DriverDao;
-import com.datapackage.model.Driver;
+import com.datapackage.dao.CustomerDao;
+import com.datapackage.model.Customer;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,30 +10,30 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet("/manageDrivers")
-public class DriverManagementServlet extends HttpServlet {
+@WebServlet("/manageCustomers")
+public class CustomerManagementServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private DriverDao driverDao;
+    private CustomerDao customerDao;
 
     @Override
     public void init() {
-        driverDao = new DriverDao();
+        customerDao = new CustomerDao();
     }
 
-    // doGet: List all drivers (or search if "q" is provided) and forward to JSP
+    // doGet: Retrieve all customers (or search by query parameter "q") and forward to JSP
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             String query = request.getParameter("q");
-            List<Driver> driverList;
+            List<Customer> customerList;
             if(query != null && !query.trim().isEmpty()){
-                driverList = driverDao.searchDrivers(query.trim());
+                customerList = customerDao.searchCustomers(query.trim());
             } else {
-                driverList = driverDao.getAllDrivers();
+                customerList = customerDao.getAllCustomers();
             }
-            request.setAttribute("driverList", driverList);
-            RequestDispatcher rd = request.getRequestDispatcher("/Views/driverManagement.jsp");
+            request.setAttribute("customerList", customerList);
+            RequestDispatcher rd = request.getRequestDispatcher("/Views/customerManagement.jsp");
             rd.forward(request, response);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -41,16 +41,16 @@ public class DriverManagementServlet extends HttpServlet {
         }
     }
 
-    // doPost: Handle add, update, delete actions
+    // doPost: Handle add, update, and delete actions for customers
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        if (action == null) {
+        if(action == null) {
             action = "";
         }
         try {
-            switch (action) {
+            switch(action) {
                 case "add":
                     String email = request.getParameter("email");
                     String password = request.getParameter("password");
@@ -59,15 +59,15 @@ public class DriverManagementServlet extends HttpServlet {
                     String nic = request.getParameter("nic");
                     String contact = request.getParameter("contact");
 
-                    Driver newDriver = new Driver();
-                    newDriver.setEmail(email);
-                    newDriver.setPassword(password);
-                    newDriver.setName(name);
-                    newDriver.setAddress(address);
-                    newDriver.setNic(nic);
-                    newDriver.setContact(contact);
+                    Customer newCustomer = new Customer();
+                    newCustomer.setEmail(email);
+                    newCustomer.setPassword(password);
+                    newCustomer.setName(name);
+                    newCustomer.setAddress(address);
+                    newCustomer.setNic(nic);
+                    newCustomer.setContact(contact);
 
-                    driverDao.registerDriver(newDriver);
+                    customerDao.registerCustomer(newCustomer);
                     break;
                 case "update":
                     int updateUserId = Integer.parseInt(request.getParameter("userId"));
@@ -75,11 +75,11 @@ public class DriverManagementServlet extends HttpServlet {
                     String updateAddress = request.getParameter("address");
                     String updateNic = request.getParameter("nic");
                     String updateContact = request.getParameter("contact");
-                    driverDao.updateDriver(updateUserId, updateName, updateAddress, updateNic, updateContact);
+                    customerDao.updateCustomer(updateUserId, updateName, updateAddress, updateNic, updateContact);
                     break;
                 case "delete":
                     int deleteUserId = Integer.parseInt(request.getParameter("userId"));
-                    driverDao.deleteDriver(deleteUserId);
+                    customerDao.deleteCustomer(deleteUserId);
                     break;
                 default:
                     break;
@@ -87,6 +87,6 @@ public class DriverManagementServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect(request.getContextPath() + "/manageDrivers");
+        response.sendRedirect(request.getContextPath() + "/manageCustomers");
     }
 }

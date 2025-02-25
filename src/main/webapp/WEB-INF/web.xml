@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd" id="WebApp_ID" version="5.0">
-  <display-name>Mega_City_Cab</display-name>
-    <welcome-file-list>
-        <welcome-file>Views/index.jsp</welcome-file>
-    </welcome-file-list>
-    
-     <servlet>
+<web-app
+    xmlns="https://jakarta.ee/xml/ns/jakartaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+    version="6.0"
+    id="WebApp_ID"
+    metadata-complete="true">
+
+    <display-name>Mega_City_Cab</display-name>
+
+    <!-- Servlets -->
+    <servlet>
         <servlet-name>RegisterCustomerServlet</servlet-name>
         <servlet-class>com.datapackage.controler.RegisterCustomerServlet</servlet-class>
     </servlet>
@@ -21,6 +26,10 @@
         <servlet-name>DriverManagementServlet</servlet-name>
         <servlet-class>com.datapackage.controler.DriverManagementServlet</servlet-class>
     </servlet>
+	<servlet>
+	    <servlet-name>CustomerManagementServlet</servlet-name>
+	    <servlet-class>com.datapackage.controler.CustomerManagementServlet</servlet-class>
+	</servlet>
 
     <!-- Servlet Mappings -->
     <servlet-mapping>
@@ -39,10 +48,14 @@
         <servlet-name>DriverManagementServlet</servlet-name>
         <url-pattern>/manageDrivers</url-pattern>
     </servlet-mapping>
-
+	<servlet-mapping>
+	    <servlet-name>CustomerManagementServlet</servlet-name>
+	    <url-pattern>/manageCustomers</url-pattern>
+	</servlet-mapping>
+	
+    <!-- Welcome File -->
     <welcome-file-list>
         <welcome-file>Views/index.jsp</welcome-file>
     </welcome-file-list>
-    
-    
+
 </web-app>
