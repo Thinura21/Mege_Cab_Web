@@ -25,9 +25,9 @@
 			</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<%= request.getContextPath() %>/Views/vehicles.jsp">
-            <i class="fas fa-car"></i> Cars
-          </a>
+			 <a class="nav-link" href="<%= request.getContextPath() %>/manageVehicles">
+			 	<i class="fas fa-truck"></i> Vehicles
+			</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="<%= request.getContextPath() %>/manageDrivers">
