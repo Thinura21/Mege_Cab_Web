@@ -34,6 +34,10 @@
     		<servlet-name>VehicleManagementServlet</servlet-name>
     		<servlet-class>com.datapackage.controler.VehicleManagementServlet</servlet-class>
 	</servlet>
+	<servlet>
+    	<servlet-name>BookingManagementServlet</servlet-name>
+    	<servlet-class>com.datapackage.controler.BookingManagementServlet</servlet-class>
+	</servlet>
 
     <!-- Servlet Mappings -->
     <servlet-mapping>
@@ -60,7 +64,10 @@
    		<servlet-name>VehicleManagementServlet</servlet-name>
     		<url-pattern>/manageVehicles</url-pattern>
 	</servlet-mapping>
-	
+	<servlet-mapping>
+    	<servlet-name>BookingManagementServlet</servlet-name>
+    	<url-pattern>/manageBookings</url-pattern>
+	</servlet-mapping>
     <!-- Welcome File -->
     <welcome-file-list>
         <welcome-file>Views/index.jsp</welcome-file>

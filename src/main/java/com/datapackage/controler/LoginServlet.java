@@ -11,12 +11,13 @@ import java.sql.*;
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Retrieve form parameters
+        
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String roleParam = request.getParameter("role");
+        String roleParam = request.getParameter("role"); // e.g. "Customer", "Driver", "Admin", "Staff"
         
         Connection con = null;
         PreparedStatement ps = null;
@@ -24,6 +25,8 @@ public class LoginServlet extends HttpServlet {
         
         try {
             con = DBConnection.getConnection();
+            
+            // Suppose your Users table has columns: Email, Password, Role, Name, Contact, Address
             String sql = "SELECT * FROM Users WHERE Email = ? AND Password = ? AND Role = ?";
             ps = con.prepareStatement(sql);
             ps.setString(1, email);
@@ -32,38 +35,26 @@ public class LoginServlet extends HttpServlet {
             rs = ps.executeQuery();
             
             if (rs.next()) {
-                // Successful login: set session attribute.
+                // Successful login
                 HttpSession session = request.getSession();
+                
+                String dbRole = rs.getString("Role");
+                String dbName = rs.getString("Name"); // or adapt to your column name
+
+                // Store in session
                 session.setAttribute("userEmail", email);
-                
-                // Retrieve the role from the DB.
-                String role = rs.getString("Role");
-                
-                // Redirect based on role using a switch-case.
-                switch (role) {
-                    case "Customer":
-                        response.sendRedirect(request.getContextPath() + "/customerDashboard.jsp");
-                        break;
-                    case "Driver":
-                        response.sendRedirect(request.getContextPath() + "/driverDashboard.jsp");
-                        break;
-                    case "Admin":
-                        response.sendRedirect(request.getContextPath() + "/Views/dashboard.jsp");
-                        break;
-                    case "Staff":
-                        response.sendRedirect(request.getContextPath() + "/staffDashboard.jsp");
-                        break;
-                    default:
-                        response.sendRedirect(request.getContextPath() + "/login.jsp?error=Unknown%20role");
-                        break;
-                }
+                session.setAttribute("role", dbRole);
+                session.setAttribute("userName", dbName);
+
+                // Redirect to home page
+                response.sendRedirect(request.getContextPath() + "/Views/index.jsp");
             } else {
-                // Login failed: redirect back with error message.
-                response.sendRedirect(request.getContextPath() + "/login.jsp?error=Invalid%20credentials");
+                // Login failed
+                response.sendRedirect(request.getContextPath() + "/Views/login.jsp?error=Invalid%20credentials");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect(request.getContextPath() + "/login.jsp?error=An%20error%20occurred");
+            response.sendRedirect(request.getContextPath() + "/Views/login.jsp?error=An%20error%20occurred");
         } finally {
             try {
                 if (rs != null) rs.close();

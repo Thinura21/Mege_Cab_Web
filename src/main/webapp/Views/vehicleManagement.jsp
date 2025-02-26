@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Vehicle Management - Mega City Cab</title>
+    
     <!-- Include your CSS/JS references -->
     <%@ include file="../Assests/CDN_Links.jsp" %>
     <link rel="stylesheet" href="../Assets/d_styles.css">
