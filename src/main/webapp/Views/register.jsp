@@ -1,58 +1,113 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
+    
+    <!-- Include CDN-based CSS and fonts -->
+    <%@ include file="/Assets/CDN_Links.jsp" %>
+    
+    <!-- Link to your shared styles -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Assets/styles.css">
 </head>
 <body>
-    <h2>Register</h2>
-    
-    <form action="<%= request.getContextPath() %>/registerServlet" method="post">
-        <label for="f_name">Full Name:</label>
-        <input type="text" id="f_name" name="f_name" required>
-        <br><br>
+    <div class="container mt-5">
+        <div class="row register-container">
+            <div class="col-md-6 d-none d-md-block">
+                <div class="register-image"
+                     style="background-image: url('<%= request.getContextPath() %>/Assets/Images/cab.png');">
+                </div>
+            </div>
 
-        <label for="Address">Address:</label>
-        <input type="text" id="Address" name="Address" required>
-        <br><br>
+            <div class="col-md-6 p-4">
+                <h2 class="text-center mb-4">Create an Account</h2>
 
-        <label for="Contact">Contact:</label>
-        <input type="text" id="Contact" name="Contact" required>
-        <br><br>
+                <form action="<%= request.getContextPath() %>/registerServlet" method="post">
+                    <div class="row">
+                        <div class="col-12 col-md-6 mb-3">
+                            <label for="f_name" class="form-label">Full Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input type="text" class="form-control" id="f_name" name="f_name"
+                                       required placeholder="Full Name">
+                            </div>
+                        </div>
 
-        <label for="user_name">Username:</label>
-        <input type="text" id="user_name" name="user_name" required>
-        <br><br>
+                        <div class="col-12 col-md-6 mb-3">
+                            <label for="Contact" class="form-label">Contact Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                <input type="tel" class="form-control" id="Contact" name="Contact"
+                                       required placeholder="Contact">
+                            </div>
+                        </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br><br>
+                        <div class="col-12 mb-3">
+                            <label for="Address" class="form-label">Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                                <input type="text" class="form-control" id="Address" name="Address"
+                                       required placeholder="Enter your address">
+                            </div>
+                        </div>
 
-        <label for="role">Role:</label>
-        <select id="role" name="role" required>
-            <option value="">-- Select Role --</option>
-            <option value="Admin">Admin</option>
-            <option value="Staff">Staff</option>
-            <option value="Driver">Driver</option>
-            <option value="Customer">Customer</option>
-        </select>
-        <br><br>
+                        <div class="col-12 col-md-6 mb-3">
+                            <label for="user_name" class="form-label">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                <input type="text" class="form-control" id="user_name" name="user_name"
+                                       required placeholder="Username">
+                            </div>
+                        </div>
 
-        <input type="submit" value="Register">
-    </form>
-    
-    <p>
-        <% 
-            String message = (String) request.getAttribute("message");
-            if (message != null) {
-        %>
-            <strong><%= message %></strong>
-        <% } %>
-    </p>
-    
-    <p>Already have an account?
-        <a href="<%= request.getContextPath() %>/Views/login.jsp">Login here</a>.
-    </p>
+                        <div class="col-12 col-md-6 mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" class="form-control" id="password" name="password"
+                                       required placeholder="Password">
+                            </div>
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-lines-fill"></i></span>
+                                <select class="form-select" id="role" name="role" required>
+                                    <option value="">-- Select Role --</option>
+                                    <option value="Driver">Driver</option>
+                                    <option value="Customer">Customer</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="bi bi-person-add me-2"></i>Register
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <%
+                    String message = (String) request.getAttribute("message");
+                    if (message != null) {
+                %>
+                    <div class="alert alert-info text-center mt-3" role="alert">
+                        <%= message %>
+                    </div>
+                <% } %>
+
+                <p class="text-center mt-3 mb-0">
+                    Already have an account?
+                    <a href="<%= request.getContextPath() %>/Views/login.jsp" class="text-primary">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS and Popper -->
+    <%@ include file="/Assets/scripts.jsp" %>
 </body>
 </html>

@@ -1,47 +1,83 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    String role = (String) session.getAttribute("role");
-    String username = (String) session.getAttribute("username");
-    if (role == null || (!role.equalsIgnoreCase("Customer") && !role.equalsIgnoreCase("Driver"))) {
-        response.sendRedirect(request.getContextPath() + "/Views/login.jsp");
-        return;
-    }
+// Get the current session or create a new one if it doesn't exist.
+HttpSession httpsession = request.getSession();
+
+// Retrieve user role and username from the session.
+String role = (String) httpsession.getAttribute("role");
+String username = (String) httpsession.getAttribute("username");
+
+if (role == null || (!role.equalsIgnoreCase("Customer") && !role.equalsIgnoreCase("Driver"))) {
+response.sendRedirect(request.getContextPath() + "/Views/login.jsp");
+return;
+}
 %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
     <style>
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #4361ee;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 5px 0;
-        }
-        .btn:hover {
-            background-color: #3a56d4;
-        }
+		body {
+		    background-color: #f4f6f9;
+		}
+		
+		.card {
+		    border-radius: 10px;
+		    max-width: 600px;
+		    margin: 0 auto;
+		}
+		
+		.card-header {
+		    display: flex;
+		    align-items: center;
+		    justify-content: space-between;
+		}
+		
+		.btn i {
+		    margin-right: 5px;
+		} 
     </style>
+    
 </head>
 <body>
-    <h2>Welcome, <%= username %>!</h2>
-    <p>Your role: <%= role %></p>
-    
-    <p>This is the Home page for <%= role %>s.</p>
-    <ul>
-        <% if(role.equalsIgnoreCase("Customer")) { %>
-            <li><a class="btn" href="<%= request.getContextPath() %>/BookingServlet">Bookings</a></li>
-        <% } else if(role.equalsIgnoreCase("Driver")) { %>
-            <li><a class="btn" href="<%= request.getContextPath() %>/manageDriverBooking">Hires</a></li>
-        <% } %>
-    </ul>
-    
-    <form action="<%= request.getContextPath() %>/logoutServlet" method="post">
-        <input type="submit" value="Logout" class="btn">
-    </form>
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">Welcome, <%= username %>!</h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Your role: <span class="badge bg-info"><%= role %></span></p>
+                <p>This is the Home page for <%= role %>s.</p>
+
+                <div class="mt-4">
+                    <% if(role.equalsIgnoreCase("Customer")) { %>
+                        <a href="<%= request.getContextPath() %>/BookingServlet" class="btn btn-primary me-2">
+                            <i class="bi bi-calendar-check me-2"></i>Bookings
+                        </a>
+                    <% } else if(role.equalsIgnoreCase("Driver")) { %>
+                        <a href="<%= request.getContextPath() %>/manageDriverBooking" class="btn btn-primary me-2">
+                            <i class="bi bi-truck me-2"></i>Hires
+                        </a>
+                    <% } %>
+
+                    <form action="<%= request.getContextPath() %>/logoutServlet" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 </body>
 </html>

@@ -49,7 +49,7 @@ public class loginServlet extends HttpServlet {
                         response.sendRedirect(contextPath + "/Views/completeProfile.jsp");
                     } else {
                         session.setAttribute("customerId", customer.getCustomerId());
-                        response.sendRedirect(contextPath + "/Views/home.jsp");
+                        response.sendRedirect(contextPath + "/Views/index.jsp");
                     }
                 } else if ("Driver".equalsIgnoreCase(user.getRole())) {
                     Driver driver = driverDao.getDriverByUserId(user.getUser_id());
@@ -58,7 +58,7 @@ public class loginServlet extends HttpServlet {
                     } else {
                         session.setAttribute("driverId", driver.getDriverId());
                         session.setAttribute("verified", driver.isVerified());
-                        response.sendRedirect(contextPath + "/Views/home.jsp");
+                        response.sendRedirect(contextPath + "/Views/index.jsp");
                     }
                 } else if ("Admin".equalsIgnoreCase(user.getRole())) {
                     response.sendRedirect(contextPath + "/Views/adminDashboard.jsp");

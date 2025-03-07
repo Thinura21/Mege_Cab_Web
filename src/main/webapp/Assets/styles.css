@@ -1,0 +1,338 @@
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f8f8f8;
+    color: #222;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* Navbar Enhancements */
+.navbar {
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.nav-link {
+    position: relative;
+    font-weight: 500;
+    padding: 8px 15px !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: #FFC107;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover:after {
+    width: 80%;
+}
+
+.btn {
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.btn-warning {
+    box-shadow: 0 2px 4px rgba(255, 193, 7, 0.4);
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.5);
+}
+
+.btn-outline-dark:hover {
+    background-color: #343a40;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Hero Section Enhancements */
+.hero-section {
+    min-height: 500px;
+    padding: 100px 0 120px;
+    background-color: #fffbf0;
+    overflow: hidden;
+}
+
+.hero-image {
+    transform: scale(1);
+    transition: transform 0.5s ease;
+    animation: float 5s infinite ease-in-out;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+.text-content h1 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    animation: fadeInLeft 1s forwards;
+}
+
+.text-content p {
+    margin-bottom: 30px;
+    opacity: 0.8;
+    animation: fadeInLeft 1.2s forwards;
+}
+
+.ride-form {
+    animation: fadeInUp 1.4s forwards;
+    margin-top: 30px;
+}
+
+.ride-form .btn {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.ride-form .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.ride-form .btn i {
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+}
+
+.ride-form .btn:hover i {
+    transform: translateX(5px);
+}
+
+
+/* Why Choose Us Section */
+.bg-light {
+    background-color: #f8f9fa !important;
+    border-radius: 6px;
+    border-left: 3px solid #FFC107;
+    transition: all 0.3s ease;
+}
+
+.bg-light:hover {
+    transform: translateX(5px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Stats Section */
+.stats-section {
+    position: relative;
+    background: linear-gradient(135deg, #222, #343a40);
+}
+
+.stats-section i {
+    margin-bottom: 15px;
+    animation: pulse 2s infinite;
+}
+
+.stats-section h3 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Reviews Section */
+.bg-warning {
+    background-color: #FFC107 !important;
+}
+
+.carousel-item .card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.carousel-item .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-indicators button {
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin: 0 5px;
+}
+
+.carousel-indicators .active {
+    background-color: #000;
+}
+
+/* Footer Enhancements */
+.footer-section {
+    background: linear-gradient(135deg, #222, #343a40);
+}
+
+.footer-section a {
+    color: #f8f8f8;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.footer-section a:hover {
+    color: #FFC107;
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+/* Animation Keyframes */
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Typo Fix for "Hiers" button */
+.btn-outline-dark.me-2:before {
+    content: "Drivers";
+    position: absolute;
+    display: block;
+}
+
+/* Responsive Improvements */
+@media (max-width: 992px) {
+    .hero-section {
+        padding: 60px 0 100px;
+    }
+    
+    .text-content {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .stats-section .col-md-3 {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px !important;
+    }
+    
+    .hero-section {
+        padding: 50px 0 80px;
+    }
+    
+    .hero-image {
+        max-width: 80%;
+        margin: 0 auto;
+    }
+    
+    .ride-form {
+        margin-bottom: 40px;
+    }
+}
+
+/*login/register styles */
+.login-container {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    max-height: 90vh;
+    max-width: 100%;
+    margin-top: 30px;
+}
+
+.login-image {
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 500px;
+}
+
+.register-container {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    max-height: 90vh;
+    max-width: 100%;
+}
+
+.register-image {
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 500px;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #FFC107;
+    box-shadow: 0 0 0 0.2rem rgba(255,193,7,0.25);
+}
+
+.btn-primary {
+    background-color: #FFC107;
+    border-color: #FFC107;
+    color: #000;
+}
+
+.btn-primary:hover {
+    background-color: #E0A800;
+    border-color: #E0A800;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .login-image,
+    .register-image {
+        display: none !important;
+    }
+}
