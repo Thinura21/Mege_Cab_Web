@@ -94,44 +94,72 @@ public class ManageCustomerServlet extends HttpServlet {
     
     private void insertCustomer(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String userName = request.getParameter("userName");
-       String password = request.getParameter("password");
-       String name = request.getParameter("name");
-       String address = request.getParameter("address");
-       String nic = request.getParameter("nic");
-       String contact = request.getParameter("contact");
-       String email = request.getParameter("email");
-       byte[] profilePicture = null;
-
-       // Create new user record for the customer:
-       Users newUser = new Users();
-       newUser.setF_name(name);
-       newUser.setAddress(address);
-       newUser.setContact(contact);
-       newUser.setUser_name(userName);
-       newUser.setPassword(password);
-       newUser.setRole("Customer");
-       
-       int newUserId = 0;
-       try {
-           newUserId = userDao.insertUser(newUser);
-       } catch (ClassNotFoundException ex) {
-           ex.printStackTrace();
-       }
-       
-       Customer customer = new Customer();
-       customer.setUserId(newUserId);
-       customer.setName(name);
-       customer.setAddress(address);
-       customer.setNic(nic);
-       customer.setContact(contact);
-       customer.setEmail(email);
-       customer.setProfilePicture(profilePicture);
-       
-       manageCustomerDao.addCustomer(customer);
-       response.sendRedirect(request.getContextPath() + "/manageCustomer?action=list");
-   }
-
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String address = request.getParameter("address");
+        String nic = request.getParameter("nic");
+        String contact = request.getParameter("contact");
+        String email = request.getParameter("email");
+        byte[] profilePicture = null;
+        
+        // Retrieve profile picture part if provided
+        Part filePart = request.getPart("profilePicture");
+        if (filePart != null && filePart.getSize() > 0) {
+            profilePicture = new byte[(int) filePart.getSize()];
+            filePart.getInputStream().read(profilePicture);
+        }
+        
+        // Create new user record for the customer:
+        Users newUser = new Users();
+        newUser.setF_name(name);
+        newUser.setAddress(address);
+        newUser.setContact(contact);
+        newUser.setUser_name(userName);
+        newUser.setPassword(password);
+        newUser.setRole("Customer");
+        
+        int newUserId = 0;
+        try {
+            newUserId = userDao.insertUser(newUser);
+        } catch (Exception e) {
+            if (e instanceof java.sql.SQLIntegrityConstraintViolationException) {
+                request.setAttribute("errorMessage", "User already exists. Please choose a different username.");
+                request.getRequestDispatcher("/Views/manageCustomer.jsp").forward(request, response);
+                return;
+            } else {
+                e.printStackTrace();
+                request.setAttribute("errorMessage", "An unexpected error occurred while creating the user.");
+                request.getRequestDispatcher("/Views/manageCustomer.jsp").forward(request, response);
+                return;
+            }
+        }
+        
+        Customer customer = new Customer();
+        customer.setUserId(newUserId);
+        customer.setName(name);
+        customer.setAddress(address);
+        customer.setNic(nic);
+        customer.setContact(contact);
+        customer.setEmail(email);
+        customer.setProfilePicture(profilePicture);
+        
+        try {
+            manageCustomerDao.addCustomer(customer);
+        } catch (Exception e) {
+            if (e instanceof java.sql.SQLIntegrityConstraintViolationException) {
+                request.setAttribute("errorMessage", "Error adding customer: " + e.getMessage());
+                request.getRequestDispatcher("/Views/manageCustomer.jsp").forward(request, response);
+                return;
+            } else {
+                e.printStackTrace();
+                request.setAttribute("errorMessage", "An unexpected error occurred while adding the customer.");
+                request.getRequestDispatcher("/Views/manageCustomer.jsp").forward(request, response);
+                return;
+            }
+        }
+        response.sendRedirect(request.getContextPath() + "/manageCustomer?action=list");
+    }
     
     private void updateCustomer(HttpServletRequest request, HttpServletResponse response)
          throws ServletException, IOException {
@@ -146,6 +174,13 @@ public class ManageCustomerServlet extends HttpServlet {
         String password = request.getParameter("password");
         byte[] profilePicture = null;
         
+        // Retrieve new image if provided
+        Part filePart = request.getPart("profilePicture");
+        if (filePart != null && filePart.getSize() > 0) {
+            profilePicture = new byte[(int) filePart.getSize()];
+            filePart.getInputStream().read(profilePicture);
+        }
+        
         Customer customer = new Customer();
         customer.setCustomerId(customerId);
         customer.setUserId(userId);
@@ -154,13 +189,24 @@ public class ManageCustomerServlet extends HttpServlet {
         customer.setNic(nic);
         customer.setContact(contact);
         customer.setEmail(email);
-        customer.setProfilePicture(profilePicture);
+        if (profilePicture != null) {
+            customer.setProfilePicture(profilePicture);
+        }
         
-        manageCustomerDao.editCustomer(customer);
         try {
+            manageCustomerDao.editCustomer(customer);
             userDao.updateUser(userName, password, userId);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            if (e instanceof java.sql.SQLIntegrityConstraintViolationException) {
+                request.setAttribute("errorMessage", "Error updating customer: " + e.getMessage());
+                request.getRequestDispatcher("/Views/manageCustomer.jsp").forward(request, response);
+                return;
+            } else {
+                e.printStackTrace();
+                request.setAttribute("errorMessage", "An unexpected error occurred while updating the customer.");
+                request.getRequestDispatcher("/Views/manageCustomer.jsp").forward(request, response);
+                return;
+            }
         }
         response.sendRedirect(request.getContextPath() + "/manageCustomer?action=list");
     }
@@ -172,7 +218,6 @@ public class ManageCustomerServlet extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/manageCustomer?action=list");
     }
     
-    // Branch to stream profile picture as image
     private void viewImage(HttpServletRequest request, HttpServletResponse response)
          throws ServletException, IOException {
         String idParam = request.getParameter("id");

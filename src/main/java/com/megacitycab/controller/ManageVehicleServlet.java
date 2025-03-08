@@ -13,7 +13,7 @@ import com.megacitycab.dao.ManageVehicleDao;
 import com.megacitycab.model.Vehicle;
 
 @WebServlet("/manageVehicle")
-@MultipartConfig(maxFileSize = 16177215) // approx 16MB
+@MultipartConfig(maxFileSize = 16177215)
 public class ManageVehicleServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ManageVehicleDao manageVehicleDao;
@@ -85,7 +85,6 @@ public class ManageVehicleServlet extends HttpServlet {
     
     private void insertVehicle(HttpServletRequest request, HttpServletResponse response)
          throws ServletException, IOException {
-        // For adding a vehicle, assume that driver_id is provided by the form.
         int driverId = Integer.parseInt(request.getParameter("driverId"));
         String model = request.getParameter("model");
         String licensePlate = request.getParameter("licensePlate");
