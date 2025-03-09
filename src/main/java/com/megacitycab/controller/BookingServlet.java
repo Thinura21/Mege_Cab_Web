@@ -4,6 +4,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import com.megacitycab.dao.BookingDao;
 import com.megacitycab.model.Booking;
@@ -47,8 +49,6 @@ public class BookingServlet extends HttpServlet {
         }
         
         int customerId = (int) session.getAttribute("customerId");
-        
-        // Read form parameters
         String origin = request.getParameter("originCity");
         String destination = request.getParameter("destinationCity");
         double distanceKm = 0.0;
@@ -62,6 +62,15 @@ public class BookingServlet extends HttpServlet {
         }
         
         int vehicleTypeId = Integer.parseInt(request.getParameter("vehicleTypeId"));
+        String bookingDateTimeStr = request.getParameter("bookingDateTime");
+        Timestamp bookingTimestamp;
+        try {
+            LocalDateTime localDateTime = LocalDateTime.parse(bookingDateTimeStr);
+            bookingTimestamp = Timestamp.valueOf(localDateTime);
+        } catch (Exception e) {
+            // fallback if parse fails
+            bookingTimestamp = new Timestamp(System.currentTimeMillis());
+        }
         
         Booking booking = new Booking();
         booking.setCustomerId(customerId);
@@ -70,9 +79,9 @@ public class BookingServlet extends HttpServlet {
         booking.setDistanceKm(distanceKm);
         booking.setVehicleTypeId(vehicleTypeId);
         booking.setStatus("Pending");
+        booking.setBookingDate(bookingTimestamp);
         
         int bookingId = bookingDao.createBooking(booking);
-        
         request.setAttribute("bookingId", bookingId);
         request.setAttribute("bookingStatus", "Pending");
         
@@ -83,7 +92,8 @@ public class BookingServlet extends HttpServlet {
          throws ServletException, IOException {
         
         int bookingId = Integer.parseInt(request.getParameter("bookingId"));
-        bookingDao.updateBookingStatus(bookingId, "Canceled");
+        // We call updateBookingStatus with driverId = null for cancellation
+        bookingDao.updateBookingStatus(bookingId, "Canceled", null);
         
         request.setAttribute("bookingId", bookingId);
         request.setAttribute("bookingStatus", "Canceled");
@@ -100,10 +110,8 @@ public class BookingServlet extends HttpServlet {
         }
         
         int customerId = (int) session.getAttribute("customerId");
-        
         List<Booking> bookingList = bookingDao.getBookingsByCustomerId(customerId);
         request.setAttribute("bookingList", bookingList);
-        
         request.getRequestDispatcher("/Views/bookingForm.jsp").forward(request, response);
     }
 }

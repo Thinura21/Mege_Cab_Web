@@ -78,4 +78,32 @@ public class DriverDao {
         }
         return rowsUpdated;
     }
+    
+    public Driver getDriverByDriverId(int driverId) {
+        Driver driver = null;
+        String sql = "SELECT * FROM Drivers WHERE driver_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, driverId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                driver = new Driver();
+                driver.setDriverId(rs.getInt("driver_id"));
+                driver.setUserId(rs.getInt("user_id"));
+                driver.setProfilePicture(rs.getBytes("profile_picture"));
+                driver.setFName(rs.getString("f_name"));
+                driver.setAddress(rs.getString("Address"));
+                driver.setContact(rs.getString("Contact"));
+                driver.setEmail(rs.getString("email"));
+                driver.setLicenseNumber(rs.getString("license_number"));
+                driver.setLicencePhoto(rs.getBytes("licence_photo"));
+                driver.setStatus(rs.getString("status"));
+                driver.setVerified(rs.getBoolean("verified"));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return driver;
+    }
+
 }

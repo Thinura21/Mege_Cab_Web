@@ -45,7 +45,7 @@
                         <i class="bi bi-truck me-2"></i>Vehicle Management
                     </h2>
                     <!-- "Add New Vehicle" button triggers the Bootstrap modal -->
-                    <button class="btn btn-success" id="addVehicleBtn">
+                    <button class="btn btn-warning" id="addVehicleBtn">
                         <i class="fas fa-car-side me-1"></i>Add New Vehicle
                     </button>
                 </div>

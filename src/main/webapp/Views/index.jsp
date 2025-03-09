@@ -41,55 +41,9 @@
             </div>
         </div>
     </div>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold fs-3 text-warning" href="index.jsp"><i class="fa-solid fa-taxi me-2"></i> Mega City Cab</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link active" href="index.jsp"><i class="fas fa-home me-1"></i> Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about"><i class="fas fa-info-circle me-1"></i> About Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services"><i class="fas fa-taxi me-1"></i> Services</a></li>
-					    <% if (role != null) { 
-					         if(role.equalsIgnoreCase("Customer")) { %>
-					            <a class="nav-link" href="<%= request.getContextPath() %>/BookingServlet">
-					                <i class="fas fa-calendar-check me-1"></i> Booking
-					            </a>
-							    <%   } else if(role.equalsIgnoreCase("Driver")) { %>
-							            <a class="nav-link" href="<%= request.getContextPath() %>/manageDriverBooking">
-							                <i class="fas fa-calendar-check me-1"></i> Booking
-							            </a>
-							    <%   } else { %>
-							            <a class="nav-link" href="bookingForm.jsp">
-							                <i class="fas fa-calendar-check me-1"></i> Booking
-							            </a>
-							    <%   }
-						       } else { %>
-						           <a class="nav-link" href="bookingForm.jsp">
-						                <i class="fas fa-calendar-check me-1"></i> Booking
-						           </a>
-						    <% } %>
-                    <li class="nav-item"><a class="nav-link" href="#contact"><i class="fas fa-envelope me-1"></i> Contact</a></li>
-                </ul>
-                <div class="d-flex">
-                    <% if (username != null && !username.isEmpty()) { %>
-                        <form action="<%= request.getContextPath() %>/logoutServlet" method="post" class="d-inline">
-						    <button type="submit" class="btn btn-danger">
-						        <i class="bi bi-box-arrow-right me-2"></i>Logout
-						    </button>
-						</form>
-
-                    <% } else { %>
-                        <a href="login.jsp" class="btn btn-warning text-dark"><i class="fas fa-sign-in-alt me-1"></i> Login</a>
-                    <% } %>
-                </div>
-            </div>
-        </div>
-    </nav>
-
+    
+    <%@ include file="Navigation/navbar.jsp" %>
+    
     <!-- Hero Section -->
     <section id="home" class="hero-section d-flex align-items-center position-relative">
         <div class="container">
@@ -676,53 +630,43 @@
 </section>
 
 <!-- Footer -->
-<footer class="footer-section text-white py-5">
+<footer class="footer-section text-white py-5" style="background-color: #232323;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 mb-4 mb-lg-0">
-                <h4 class="text-warning fw-bold mb-4"><i class="fa-solid fa-taxi me-2"></i> Mega City Cab</h4>
-                <p class="mb-4">Your trusted ride service in Colombo. Safe, reliable, and efficient transportation at your fingertips.</p>
+            <div class="col-md-4 text-center">
+                <h4 class="text-warning fw-bold mb-4">
+                    <i class="fa-solid fa-taxi me-2"></i> Mega City Cab
+                </h4>
+                <p>
+                    Your trusted ride service in Colombo. Safe, reliable, and
+                    efficient transportation at your fingertips.
+                </p>
                 <div class="social-icons">
                     <a href="#" class="me-3"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-x-twitter"></i></a>
                     <a href="#" class="me-3"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
-            
-            <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+            <div class="col-md-4 text-center">
                 <h5 class="text-warning fw-bold mb-4">Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#booking">Booking</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#home" class="text-white text-decoration-none">Home</a></li>
+                    <li><a href="#about" class="text-white text-decoration-none">About Us</a></li>
+                    <li><a href="#services" class="text-white text-decoration-none">Services</a></li>
+                    <li><a href="#booking" class="text-white text-decoration-none">Booking</a></li>
+                    <li><a href="#contact" class="text-white text-decoration-none">Contact</a></li>
                 </ul>
-            </div>
-            
-            <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+            </div>            
+            <div class="col-md-4 text-center">
                 <h5 class="text-warning fw-bold mb-4">Our Services</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#">City Taxi</a></li>
-                    <li><a href="#">Airport Transfer</a></li>
-                    <li><a href="#">Premium Sedan</a></li>
-                    <li><a href="#">Corporate Service</a></li>
-                    <li><a href="#">Tourist Guide</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">City Taxi</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Airport Transfer</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Premium Sedan</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Corporate Service</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">Tourist Guide</a></li>
                 </ul>
-            </div>
-            
-            <div class="col-lg-4 col-md-4">
-                <h5 class="text-warning fw-bold mb-4">Download Our App</h5>
-                <p class="mb-3">Get our mobile app for the best booking experience</p>
-                <div class="app-buttons">
-                    <a href="#" class="btn btn-light me-2 mb-2">
-                        <i class="fab fa-google-play me-2"></i> Google Play
-                    </a>
-                    <a href="#" class="btn btn-light mb-2">
-                        <i class="fab fa-apple me-2"></i> App Store
-                    </a>
-                </div>
             </div>
         </div>
         
@@ -739,18 +683,11 @@
         </div>
     </div>
 </footer>
-
-<!-- Back to Top Button -->
-<a href="#" class="back-to-top btn btn-warning rounded-circle position-fixed" style="bottom: 30px; right: 30px; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; z-index: 99;">
-    <i class="fas fa-arrow-up"></i>
-</a>
-
 <!-- Bootstrap JS Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Custom Script -->
 <script>
-    // Show/hide back to top button based on scroll position
     window.addEventListener('scroll', function() {
         var backToTopBtn = document.querySelector('.back-to-top');
         if (window.pageYOffset > 300) {
@@ -760,7 +697,6 @@
         }
     });
     
-    // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();

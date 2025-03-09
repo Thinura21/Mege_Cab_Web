@@ -8,7 +8,7 @@ import com.megacitycab.util.DBConnection;
 
 public class ManageBookingDao {
 
-    // Retrieve all bookings (for staff, not filtering by customer)
+    // Retrieve all bookings
     public List<Booking> getAllBookings() {
         List<Booking> bookings = new ArrayList<>();
         String sql = "SELECT * FROM Bookings ORDER BY booking_date DESC";
@@ -25,37 +25,7 @@ public class ManageBookingDao {
                 } else {
                     b.setDriverId(driverId);
                 }
-                b.setPickupLocation(rs.getString("pickup_location"));
-                b.setDestination(rs.getString("destination"));
-                b.setDistanceKm(rs.getDouble("distance_km"));
-                b.setStatus(rs.getString("status"));
-                b.setVehicleTypeId(rs.getInt("vehicle_type_id"));
-                bookings.add(b);
-            }
-        } catch (SQLException | ClassNotFoundException e){
-            e.printStackTrace();
-        }
-        return bookings;
-    }
-    
-    // Retrieve bookings for a given customer (if needed)
-    public List<Booking> getBookingsByCustomerId(int customerId) {
-        List<Booking> bookings = new ArrayList<>();
-        String sql = "SELECT * FROM Bookings WHERE customer_id = ? ORDER BY booking_date DESC";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)){
-            ps.setInt(1, customerId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()){
-                Booking b = new Booking();
-                b.setBookingId(rs.getInt("booking_id"));
-                b.setCustomerId(rs.getInt("customer_id"));
-                int driverId = rs.getInt("driver_id");
-                if (rs.wasNull()){
-                    b.setDriverId(null);
-                } else {
-                    b.setDriverId(driverId);
-                }
+                b.setBookingDate(rs.getTimestamp("booking_date"));
                 b.setPickupLocation(rs.getString("pickup_location"));
                 b.setDestination(rs.getString("destination"));
                 b.setDistanceKm(rs.getDouble("distance_km"));
@@ -87,6 +57,7 @@ public class ManageBookingDao {
                 } else {
                     b.setDriverId(driverId);
                 }
+                b.setBookingDate(rs.getTimestamp("booking_date"));
                 b.setPickupLocation(rs.getString("pickup_location"));
                 b.setDestination(rs.getString("destination"));
                 b.setDistanceKm(rs.getDouble("distance_km"));
@@ -99,19 +70,22 @@ public class ManageBookingDao {
         return b;
     }
     
-    // Insert a new booking and return its generated booking_id
+    // Insert a new booking
     public int insertBooking(Booking booking) {
         int generatedId = 0;
-        String sql = "INSERT INTO Bookings (customer_id, booking_date, pickup_location, destination, distance_km, status, vehicle_type_id) " +
-                     "VALUES (?, NOW(), ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Bookings (customer_id, booking_date, pickup_location, destination, distance_km, status, vehicle_type_id) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            
             ps.setInt(1, booking.getCustomerId());
-            ps.setString(2, booking.getPickupLocation());
-            ps.setString(3, booking.getDestination());
-            ps.setDouble(4, booking.getDistanceKm());
-            ps.setString(5, booking.getStatus());
-            ps.setInt(6, booking.getVehicleTypeId());
+            ps.setTimestamp(2, booking.getBookingDate());
+            ps.setString(3, booking.getPickupLocation());
+            ps.setString(4, booking.getDestination());
+            ps.setDouble(5, booking.getDistanceKm());
+            ps.setString(6, booking.getStatus());
+            ps.setInt(7, booking.getVehicleTypeId());
+            
             int rows = ps.executeUpdate();
             if (rows > 0) {
                 ResultSet rs = ps.getGeneratedKeys();
@@ -128,20 +102,23 @@ public class ManageBookingDao {
     // Update an existing booking
     public int updateBooking(Booking booking) {
         int rows = 0;
-        String sql = "UPDATE Bookings SET pickup_location = ?, destination = ?, distance_km = ?, status = ?, vehicle_type_id = ?, driver_id = ? WHERE booking_id = ?";
+        String sql = "UPDATE Bookings SET booking_date = ?, pickup_location = ?, destination = ?, distance_km = ?, "
+                   + "status = ?, vehicle_type_id = ?, driver_id = ? WHERE booking_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, booking.getPickupLocation());
-            ps.setString(2, booking.getDestination());
-            ps.setDouble(3, booking.getDistanceKm());
-            ps.setString(4, booking.getStatus());
-            ps.setInt(5, booking.getVehicleTypeId());
+            
+            ps.setTimestamp(1, booking.getBookingDate());
+            ps.setString(2, booking.getPickupLocation());
+            ps.setString(3, booking.getDestination());
+            ps.setDouble(4, booking.getDistanceKm());
+            ps.setString(5, booking.getStatus());
+            ps.setInt(6, booking.getVehicleTypeId());
             if (booking.getDriverId() == null) {
-                ps.setNull(6, java.sql.Types.INTEGER);
+                ps.setNull(7, java.sql.Types.INTEGER);
             } else {
-                ps.setInt(6, booking.getDriverId());
+                ps.setInt(7, booking.getDriverId());
             }
-            ps.setInt(7, booking.getBookingId());
+            ps.setInt(8, booking.getBookingId());
             rows = ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();

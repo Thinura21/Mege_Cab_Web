@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Assets/styles.css">
 </head>
 <body>
+	
+	<%@ include file="Navigation/navbar_noSessions.jsp" %>
+
     <div class="container mt-5">
         <div class="row register-container">
             <div class="col-md-6 d-none d-md-block">
